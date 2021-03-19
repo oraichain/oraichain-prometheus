@@ -1,0 +1,16 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+rule_files:
+
+scrape_configs:
+  - job_name: oraihub
+    static_configs:
+      - targets: ['35.236.177.236:26660']
+        labels:
+          instance: google-entry  
+      - targets: ['64.225.53.108:26660']
+        labels:
+          instance: digitalocean-entry    
+     

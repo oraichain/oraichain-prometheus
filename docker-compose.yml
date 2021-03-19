@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  prometheus:
+    image: prom/prometheus    
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml      
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'     
+      - '--storage.tsdb.path=/prometheus' 
+
+  grafana:
+    image: grafana/grafana
+    user: "472"
+    tty: true
+    depends_on:
+      - prometheus
+    ports:
+      - 80:3000    
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=123456
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+
